@@ -1,0 +1,9 @@
+*.sdf
+Debug/
+Release/
+ipch/
+*.obj
+*.pch
+*.pdb
+*.log
+*.idb
