@@ -1,6 +1,10 @@
 *.sdf
-Debug/
-Release/
+*.ilk
+*.pdb
+*.tlog
+*.res
+*.aps
+*.suo
 ipch/
 *.obj
 *.pch
