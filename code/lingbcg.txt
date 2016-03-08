@@ -1,0 +1,85 @@
+LINBCG
+
+Syntax | Return Value | Arguments | Keywords | Examples | Version History | See Also
+The LINBCG function is used in conjunction with SPRSIN to solve a set of n sparse linear equations with n unknowns using the iterative biconjugate gradient method.
+
+LINBCG is based on the routine linbcg described in section 2.7 of Numerical Recipes in C: The Art of Scientific Computing (Second Edition), published by Cambridge University Press, and is used by permission.
+
+Note	
+Numerical Recipes recommends using double-precision arithmetic to perform this computation.
+Syntax
+
+Result = LINBCG( A, B, X [, /DOUBLE] [, ITOL={4 | 5 | 6 | 7}] [, TOL=value] [, ITER=variable] [, ITMAX=value] )
+
+Return Value
+
+The result is an n-element vector.
+
+Arguments
+
+A
+
+A row-indexed sparse array created by the SPRSIN function.
+
+B
+
+An n-element vector containing the right-hand side of the linear system Ax=b.
+
+X
+
+An n-element vector containing the initial solution of the linear system.
+
+Keywords
+
+DOUBLE
+
+Set this keyword to force the computation to be done in double-precision arithmetic.
+
+ITOL
+
+Use this keyword to specify which convergence test should be used. Set ITOL to one of the following:
+
+Iteration stops when ? A ¡Á x - b?/ ?b? is less than the value specified by TOL.
+Iteration stops when ??-1¡Á (A ¡Á x - b)?/??-1 ¡Á b? (where ? is a "preconditioning" matrix close to A) is less than the value specified by TOL.
+The routine uses its own estimate of error in x. Iteration stops when the magnitude of the error divided by the magnitude of x is less than the value specified by TOL. This is the default setting.
+The same as 3, except that the routine uses the largest (in absolute value) component of the error and the largest component of x rather than the vector magnitudes.
+TOL
+
+Use this keyword to specify the desired convergence tolerance. For single-precision calculations, the default value is 1.0 ¡ä 10-7. For double-precision values, the default is 1.0 ¡ä 10-14.
+
+ITER
+
+Use this keyword to specify an output variable that will be set to the number of iterations performed.
+
+ITMAX
+
+The maximum allowed number of iterations. The default is n2.
+
+Examples
+
+; Begin with an array A: 
+A = [[ 5.0,  0.0, 0.0,  1.0, -2.0], $ 
+     [ 3.0, -2.0, 0.0,  1.0,  0.0], $ 
+     [ 4.0, -1.0, 0.0,  2.0,  0.0], $ 
+     [ 0.0,  3.0, 3.0,  1.0,  0.0], $ 
+     [-2.0,  0.0, 0.0, -1.0,  2.0]] 
+ 
+; Define a right-hand side vector B: 
+B = [7.0, 1.0, 3.0, 3.0, -4.0] 
+ 
+; Start with an initial guess at the solution: 
+X = REPLICATE(1.0, N_ELEMENTS(B)) 
+ 
+; Solve the linear system Ax=b: 
+result = LINBCG(SPRSIN(A), B, X) 
+ 
+; Print the result: 
+PRINT, result 
+IDL prints:
+
+   1.00000   1.00000   8.94134e-008   -2.37107e-007   -1.00000 
+The exact solution is [1, 1, 0, 0, -1].
+
+Version History
+
+Introduced: 4.0
